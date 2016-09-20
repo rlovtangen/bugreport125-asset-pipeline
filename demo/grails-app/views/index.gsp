@@ -75,5 +75,12 @@
         </section>
     </div>
 
+
+    <script src="${assetPath(src: 'jspm_packages/system.js')}"></script>
+    <script src="${assetPath(src: 'config.js')}"></script>
+    <script>
+        System.import('lib/main');
+    </script>
+		
 </body>
 </html>
