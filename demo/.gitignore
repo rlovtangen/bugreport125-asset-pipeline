@@ -10,3 +10,5 @@ classes/
 .project
 .settings
 .classpath
+/node_modules/
+/grails-app/assets/es6/jspm_packages/
