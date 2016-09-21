@@ -86,6 +86,8 @@ require('./$.iter-define')(String, 'String', function(iterated) {
 ----
 
 
+Then change asset-pipeline version in build.gradle to 2.9.3. Now promise.js will render as is and all js-files should be found.
+
 
 
 
