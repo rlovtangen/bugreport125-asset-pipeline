@@ -1,0 +1,92 @@
+= Example project for issue 125 of asset-pipeline
+
+https://github.com/bertramdev/asset-pipeline/issues/125
+
+You need npm and jspm (which can be installed with _npm install -g jspm_) to run this example.
+
+. cd demo
+. npm install
+. jspm install
+. ./gradlew bootrun
+
+Then open http://localhost:8080/ with developer tools enabled. You will see that there is a lot of js-files that are not found (404).
+
+Open http://localhost:8080/assets/jspm_packages/npm/core-js@1.2.7/library/fn/promise.js, it contains the following code:
+
+[source,javascript]
+----
+/* */ 
+require('../modules/es6.object.to-string');
+require('../modules/es6.string.iterator');
+require('../modules/web.dom.iterable');
+require('../modules/es6.promise');
+module.exports = require('../modules/$.core').Promise;
+
+----
+
+but has been rewritten to
+
+[source,javascript]
+----
+var _asset_pipeline_require = function(path) {
+	var module = _asset_pipeline_modules[path];
+	if(module != undefined) {
+		return module().exports;
+	}
+	return null;
+};
+
+var _asset_pipeline_modules = _asset_pipeline_modules || {};
+_asset_pipeline_modules['jspm_packages/npm/core-js@1.2.7/library/modules/es6.object.to-string.js'] = 
+(function() {
+  var module = {exports: {}};
+  var exports = module.exports;
+
+  /* */ 
+"format cjs";
+
+
+  return module;
+})
+;
+_asset_pipeline_modules['jspm_packages/npm/core-js@1.2.7/library/modules/es6.string.iterator.js'] = 
+(function() {
+  var module = {exports: {}};
+  var exports = module.exports;
+
+  /* */ 
+'use strict';
+var $at = require('./$.string-at')(true);
+require('./$.iter-define')(String, 'String', function(iterated) {
+  this._t = String(iterated);
+  this._i = 0;
+}, function() {
+  var O = this._t,
+      index = this._i,
+      point;
+  if (index >= O.length)
+    return {
+      value: undefined,
+      done: true
+    };
+  point = $at(O, index);
+  this._i += point.length;
+  return {
+    value: point,
+    done: false
+  };
+});
+
+
+  return module;
+})
+;
+
+...
+----
+
+
+
+
+
+
